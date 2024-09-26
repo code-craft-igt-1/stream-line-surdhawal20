@@ -7,16 +7,16 @@ void Sender::generateAndSendReadings(int numReadings) {
 }
 
 void Sender::generateRandomReadings(int numReadings) {
-    std::random_device rd;
-    std::mt19937 gen;
+    std::random_device randomDevice;
+    std::mt19937 gen(randomDevice());  // Initialize generator with random device
     std::uniform_int_distribution<> temperatureRange(95, 100);
-    std::uniform_int_distribution<> pulseDist(60, 100);
-    std::uniform_int_distribution<> spo2Dist(90, 100);
+    std::uniform_int_distribution<> pulseRange(60, 100);
+    std::uniform_int_distribution<> spo2Range(90, 100);
 
     for (int i = 0; i < numReadings; ++i) {
         int temp = temperatureRange(gen);
-        int pulse = temperatureRange(gen);
-        int spo2 = temperatureRange(gen);
+        int pulse = pulseRange(gen);
+        int spo2 = spo2Range(gen);
         sendReading(temp, pulse, spo2);
     }
 }
