@@ -1,5 +1,5 @@
-#ifndef READING_GENERATOR_H
-#define READING_GENERATOR_H
+#ifndef SENDER_H_
+#define SENDER_H_
 
 #include <string>
 #include <vector>
@@ -18,4 +18,4 @@ class ReadingGenerator {
     void sendReading(int temp, int pulse, int spo2);
 };
 
-#endif // READING_GENERATOR_H
+#endif  // SENDER_H_

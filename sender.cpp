@@ -1,12 +1,13 @@
 #include <iostream>
+#include <sender.h>
 
 class ReadingGenerator {
-public:
+ public:
     void generateAndSendReadings(int numReadings) {
         generateRandomReadings(numReadings);
     }
 
-private:
+ private:
     void generateRandomReadings(int numReadings) {
         for (int i = 0; i < numReadings; ++i) {
             int temp = temperatureRange(gen);
