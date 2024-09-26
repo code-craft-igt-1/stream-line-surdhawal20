@@ -10,7 +10,7 @@ class ReadingGeneratorTest : public ::testing::Test {
     }
 
     TEST_F(ReadingGeneratorTest, GenerateRandomReadings) {
-    sneder generator;
+    Sender generator;
     generator.generateAndSendReadings(100);
 }
 };
