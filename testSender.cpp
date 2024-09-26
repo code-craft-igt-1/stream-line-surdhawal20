@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <sstream>
 #include <iostream>
-#include "sender.h"
+#include "./sender.h"
 
 // Helper function to capture the output from std::cout
 std::string captureOutput(std::function<void()> func) {
