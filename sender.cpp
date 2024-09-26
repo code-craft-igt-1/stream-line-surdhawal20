@@ -9,6 +9,12 @@ class Sender {
 
  private:
     void generateRandomReadings(int numReadings) {
+        std::random_device rd;
+        std::mt19937 gen;
+        std::uniform_int_distribution<> temperatureRange(95, 100);
+        std::uniform_int_distribution<> pulseDist(60, 100);
+        std::uniform_int_distribution<> spo2Dist(90, 100);
+
         for (int i = 0; i < numReadings; ++i) {
             int temp = temperatureRange(gen);
             int pulse = temperatureRange(gen);
@@ -26,6 +32,7 @@ class Sender {
 };
 
 int main() {
+    Sender generator;
     generator.generateAndSendReadings(50);
     return 0;
 }

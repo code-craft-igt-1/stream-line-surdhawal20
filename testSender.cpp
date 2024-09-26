@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "./sender.h"
 
-class ReadingGeneratorTest : public ::testing::Test {
+class SenderTest : public ::testing::Test {
  protected:
     void SetUp() override {
     }
@@ -9,7 +9,7 @@ class ReadingGeneratorTest : public ::testing::Test {
     void TearDown() override {
     }
 
-    TEST_F(ReadingGeneratorTest, GenerateRandomReadings) {
+    TEST_F(SenderTest, GenerateRandomReadings) {
     Sender generator;
     generator.generateAndSendReadings(100);
 }
