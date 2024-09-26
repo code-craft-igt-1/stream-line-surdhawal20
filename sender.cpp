@@ -1,7 +1,7 @@
 #include <./sender.h>
 #include <iostream>
 
-class ReadingGenerator {
+class Sender {
  public:
     void generateAndSendReadings(int numReadings) {
         generateRandomReadings(numReadings);

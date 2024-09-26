@@ -5,7 +5,7 @@
 #include <vector>
 #include <random>
 
-class ReadingGenerator {
+class Sender {
  public:
     void generateAndSendReadings(int numReadings);
 

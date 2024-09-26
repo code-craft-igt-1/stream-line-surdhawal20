@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "./reading_generator.h"
+#include "./sender.h"
 
 class ReadingGeneratorTest : public ::testing::Test {
  protected:
@@ -10,7 +10,7 @@ class ReadingGeneratorTest : public ::testing::Test {
     }
 
     TEST_F(ReadingGeneratorTest, GenerateRandomReadings) {
-    ReadingGenerator generator;
+    sneder generator;
     generator.generateAndSendReadings(100);
 }
 };
