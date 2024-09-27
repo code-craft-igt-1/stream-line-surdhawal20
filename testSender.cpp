@@ -6,7 +6,7 @@
 #include "./sender.h"
 
 // Utility function to generate random values (same as production)
-std::tuple<int, int, int> generateRandomReading(std::mt19937& gen);
+std::tuple<int, int, int> generateRandomReading(std::mt19937* gen);
 
 // Test case for generateRandomReadings
 TEST(SenderTest, GenerateRandomReadingsTest) {
@@ -18,7 +18,7 @@ TEST(SenderTest, GenerateRandomReadingsTest) {
 
     std::vector<std::tuple<int, int, int>> readings;
     for (int i = 0; i < numReadings; ++i) {
-        readings.push_back(generateRandomReading(gen));
+        readings.push_back(generateRandomReading(&gen));
     }
 
     // Check if the vector size matches the requested number of readings
