@@ -1,9 +1,9 @@
-#include "./sender.h"
 #include <gtest/gtest.h>
 #include <tuple>
 #include <vector>
 #include <sstream>
 #include <iostream>
+#include "./sender.h"
 
 // Utility function to generate random values (same as production)
 std::tuple<int, int, int> generateRandomReading(std::mt19937& gen);
@@ -12,7 +12,7 @@ std::tuple<int, int, int> generateRandomReading(std::mt19937& gen);
 TEST(SenderTest, GenerateRandomReadingsTest) {
     Sender sender;
     int numReadings = 10;
-    
+
     std::random_device randomDevice;
     std::mt19937 gen(randomDevice());
 
@@ -46,7 +46,7 @@ TEST(SenderTest, GenerateAndSendReadingsTest_MockedCout) {
 
     // Redirect std::cout to a stringstream to capture the output
     std::stringstream buffer;
-    std::streambuf* oldCoutStreamBuf = std::cout.rdbuf(); // Save the old buffer
+    std::streambuf* oldCoutStreamBuf = std::cout.rdbuf();  // Save the old buffer
     std::cout.rdbuf(buffer.rdbuf());                      // Redirect std::cout
 
     int numReadings = 3;
