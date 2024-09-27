@@ -1,34 +1,59 @@
+#include "./sender.h"
 #include <gtest/gtest.h>
+#include <tuple>
+#include <vector>
 #include <sstream>
 #include <iostream>
-#include "./sender.h"
 
-// Helper function to capture the output from std::cout
-std::string captureOutput(std::function<void()> func) {
+// Test case for generateRandomReadings
+TEST(SenderTest, GenerateRandomReadingsTest) {
+    Sender sender;
+    int numReadings = 10;
+    auto readings = sender.generateRandomReadings(numReadings);
+
+    // Check if the vector size matches the requested number of readings
+    ASSERT_EQ(readings.size(), numReadings);
+
+    // Check if generated readings fall within the expected range
+    for (const auto& reading : readings) {
+        int temp = std::get<0>(reading);
+        int pulse = std::get<1>(reading);
+        int spo2 = std::get<2>(reading);
+
+        // Validate ranges for each component
+        EXPECT_GE(temp, 95);
+        EXPECT_LE(temp, 100);
+        EXPECT_GE(pulse, 60);
+        EXPECT_LE(pulse, 100);
+        EXPECT_GE(spo2, 90);
+        EXPECT_LE(spo2, 100);
+    }
+}
+
+// Test case for sendReading with mocked std::cout
+TEST(SenderTest, SendReadingTest_MockedCout) {
+    Sender sender;
+
+    // Redirect std::cout to a stringstream to capture the output
     std::stringstream buffer;
-    std::streambuf* old = std::cout.rdbuf(buffer.rdbuf());  // Redirect cout to buffer
+    std::streambuf* oldCoutStreamBuf = std::cout.rdbuf(); // Save the old buffer
+    std::cout.rdbuf(buffer.rdbuf());                      // Redirect std::cout
 
-    func();  // Call the function that generates output
+    // Test with specific values
+    int temp = 98;
+    int pulse = 75;
+    int spo2 = 95;
+    sender.sendReading(temp, pulse, spo2);
 
-    std::cout.rdbuf(old);  // Reset cout to original state
-    return buffer.str();   // Return the captured output
-}
+    // Restore the original buffer
+    std::cout.rdbuf(oldCoutStreamBuf);
 
-TEST(SenderTest, OutputTest) {
-    Sender generator;
+    // Expected output
+    std::string expectedOutput =
+        "Temperature: 98°F\n"
+        "Pulse Rate: 75 bpm\n"
+        "SPO2: 95%\n\n";
 
-    // Capture the output of generateAndSendReadings
-    std::string output = captureOutput([&]() {
-        generator.generateAndSendReadings(1);
-        });
-
-    // Check if the output contains valid ranges (basic check)
-    EXPECT_TRUE(output.find("Temperature") != std::string::npos);
-    EXPECT_TRUE(output.find("Pulse Rate") != std::string::npos);
-    EXPECT_TRUE(output.find("SPO2") != std::string::npos);
-}
-
-int main(int argc, char** argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    // Verify that the captured output matches the expected output
+    EXPECT_EQ(buffer.str(), expectedOutput);
 }
