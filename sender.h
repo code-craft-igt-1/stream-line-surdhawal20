@@ -9,7 +9,6 @@
 class Sender {
  public:
     void generateAndSendReadings(int numReadings);
-    std::vector<std::tuple<int, int, int>> generateRandomReadings(int numReadings);
     void sendReading(int temp, int pulse, int spo2);
 };
 
