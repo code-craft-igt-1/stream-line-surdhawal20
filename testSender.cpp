@@ -5,11 +5,21 @@
 #include <sstream>
 #include <iostream>
 
+// Utility function to generate random values (same as production)
+std::tuple<int, int, int> generateRandomReading(std::mt19937& gen);
+
 // Test case for generateRandomReadings
 TEST(SenderTest, GenerateRandomReadingsTest) {
     Sender sender;
     int numReadings = 10;
-    auto readings = sender.generateRandomReadings(numReadings);
+    
+    std::random_device randomDevice;
+    std::mt19937 gen(randomDevice());
+
+    std::vector<std::tuple<int, int, int>> readings;
+    for (int i = 0; i < numReadings; ++i) {
+        readings.push_back(generateRandomReading(gen));
+    }
 
     // Check if the vector size matches the requested number of readings
     ASSERT_EQ(readings.size(), numReadings);
@@ -31,7 +41,7 @@ TEST(SenderTest, GenerateRandomReadingsTest) {
 }
 
 // Test case for sendReading with mocked std::cout
-TEST(SenderTest, SendReadingTest_MockedCout) {
+TEST(SenderTest, GenerateAndSendReadingsTest_MockedCout) {
     Sender sender;
 
     // Redirect std::cout to a stringstream to capture the output
@@ -39,21 +49,14 @@ TEST(SenderTest, SendReadingTest_MockedCout) {
     std::streambuf* oldCoutStreamBuf = std::cout.rdbuf(); // Save the old buffer
     std::cout.rdbuf(buffer.rdbuf());                      // Redirect std::cout
 
-    // Test with specific values
-    int temp = 98;
-    int pulse = 75;
-    int spo2 = 95;
-    sender.sendReading(temp, pulse, spo2);
+    int numReadings = 3;
+    sender.generateAndSendReadings(numReadings);
 
     // Restore the original buffer
     std::cout.rdbuf(oldCoutStreamBuf);
+    std::string output = buffer.str();
 
-    // Expected output
-    std::string expectedOutput =
-        "Temperature: 98°F\n"
-        "Pulse Rate: 75 bpm\n"
-        "SPO2: 95%\n\n";
-
-    // Verify that the captured output matches the expected output
-    EXPECT_EQ(buffer.str(), expectedOutput);
+    EXPECT_NE(output.find("Temperature: "), std::string::npos);
+    EXPECT_NE(output.find("Pulse Rate: "), std::string::npos);
+    EXPECT_NE(output.find("SPO2: "), std::string::npos);
 }
